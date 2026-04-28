@@ -148,7 +148,6 @@ class Score:
     def __init__(self):
         """
         フォントの初期設定
-        引数 score：ビームを放つこうかとん（scoreインスタンス）
         """
         self.fonto = pg.font.SysFont(None, 30)
         self.colors = (0, 0, 255)
@@ -158,7 +157,6 @@ class Score:
     def update(self, screen: pg.Surface):
         """
         現在のスコアを表示する
-        引数 screen：画面Surface
         """
         self.img = self.fonto.render("Score: "+str(self.value), 0, self.colors)
         screen.blit(self.img, [WIDTH//2-150, HEIGHT//2])
