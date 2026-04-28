@@ -164,6 +164,19 @@ class Score:
         screen.blit(self.img, [WIDTH//2-150, HEIGHT//2])
 
 
+class Explosion:
+    """
+    ビームで爆弾を落としたスコアを表示するクラス
+    """
+    def __init__(self):
+        """
+        爆発エフェクトのsurfaceの格納
+        """
+        self.fonto = pg.font.SysFont(None, 30)
+        self.colors = (0, 0, 255)
+        self.value = 0
+        self.img = self.fonto.render("Score: "+str(self.value), 0, self.colors)
+
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))    
