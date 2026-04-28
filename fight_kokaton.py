@@ -160,6 +160,10 @@ def main():
         
         if bomb is not None:
             if bird.rct.colliderect(bomb.rct):
+                # 簡易ゲームオーバー画面
+                fonto = pg.font.Font(None, 80)
+                txt = fonto.render("Game Over", True, (255, 0, 0))
+                screen.blit(txt, [WIDTH//2-150, HEIGHT//2])
                 # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
                 bird.change_img(8, screen)
                 pg.display.update()
