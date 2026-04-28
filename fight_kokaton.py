@@ -166,16 +166,27 @@ class Score:
 
 class Explosion:
     """
-    ビームで爆弾を落としたスコアを表示するクラス
+    爆弾エフェクト関連
     """
     def __init__(self):
         """
         爆発エフェクトのsurfaceの格納
         """
-        self.fonto = pg.font.SysFont(None, 30)
-        self.colors = (0, 0, 255)
-        self.value = 0
-        self.img = self.fonto.render("Score: "+str(self.value), 0, self.colors)
+        self.img = pg.image.load("fig/explosion.gif")
+        self.img2 = pg.transform.flip(self.img, True, True)
+        self.rct = self.img.get_rect()
+        self.rct.center = (400, 400)
+        self.image = [self.img, self.img2]
+        self.life = 8
+    
+    def update(self, screen: pg.Surface):
+        """
+        爆発エフェクトの描画
+        引数 screen：画面Surface
+        """
+        self.life -= 1
+        if self.life % 2 == 0:
+            screen.blit(self.image[0], self.rct)
 
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
@@ -189,6 +200,7 @@ def main():
         bombs.append(bomb)
     beams = []  # ビームの空リスト
     score = Score()
+    explosions = []
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -221,12 +233,16 @@ def main():
                     beams[j] = None
                     bombs[i] = None
                     score.value += 1
+                    explosion = Explosion()
+                    explosions.append(explosion)
+
                     # bird.change_img(6, screen)  #画像の切り替え
                     # pg.display.update()
                     # time.sleep(1)
 
         bombs = [bomb for bomb in bombs if bomb is not None]
         beams = [beam for beam in beams if beam is not None]
+        explosions = [exp for exp in explosions if exp.life > 0]
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
@@ -234,6 +250,8 @@ def main():
             beam.update(screen)
         for bomb in bombs:
             bomb.update(screen)
+        for explosion in explosions:
+            explosion.update(screen)
         score.update(screen)
         pg.display.update()
         tmr += 1
